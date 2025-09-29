@@ -597,6 +597,7 @@ export function DoneStep() {
   const navigate = useNavigate();
   const { email, userName, companyName, shareholders, grants } =
     useContext(OnboardingContext);
+  const hasSavedRef = React.useRef(false);
 
   const grantMutation = useMutation<Grant, unknown, Grant>((grant) =>
     fetch("/grant/new", {
@@ -635,22 +636,37 @@ export function DoneStep() {
 
   React.useEffect(() => {
     async function saveData() {
-      const user = await userMutation.mutateAsync({ email, name: userName });
-      await Promise.all([
-        ...Object.values(grants).map((grant) =>
-          grantMutation.mutateAsync(grant)
-        ),
-        ...Object.values(shareholders).map((shareholder) =>
-          shareholderMutation.mutateAsync(shareholder)
-        ),
-        companyMutation.mutateAsync({ name: companyName }),
-      ]);
+      if (hasSavedRef.current) {
+        console.log('saveData already called, skipping duplicate execution');
+        return;
+      }
 
-      if (user) {
-        authorize(user);
-        navigate("/dashboard");
-      } else {
-        // Something bad happened.
+      hasSavedRef.current = true;
+      console.log('saveData() called - saving data...');
+      console.log('SHAREHOLDERS', shareholders)
+
+      try {
+        const user = await userMutation.mutateAsync({ email, name: userName });
+        await Promise.all([
+          ...Object.values(grants).map((grant) =>
+            grantMutation.mutateAsync(grant)
+          ),
+          ...Object.values(shareholders).map((shareholder) =>
+            shareholderMutation.mutateAsync(shareholder)
+          ),
+          companyMutation.mutateAsync({ name: companyName }),
+        ]);
+
+        if (user) {
+          authorize(user);
+          navigate("/dashboard");
+        } else {
+          // Something bad happened.
+          hasSavedRef.current = false; // Reset on failure
+        }
+      } catch (error) {
+        console.error('Error saving data:', error);
+        hasSavedRef.current = false; // Reset on failure
       }
     }
 

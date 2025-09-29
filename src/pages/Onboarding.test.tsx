@@ -173,7 +173,7 @@ describe("Onboarding", () => {
                 id: 1,
                 name: "Initial issuance",
                 amount: 1000,
-                issued: Date.now().toLocaleString(),
+                issued: "2020-01-01",
                 type: "common",
               },
             },
@@ -202,7 +202,7 @@ describe("Onboarding", () => {
     await userEvent.click(grantAmountInput);
     await userEvent.paste("2000");
     await userEvent.click(grantDateInput);
-    await userEvent.paste(Date.now().toLocaleString());
+    await userEvent.paste("2020-12-15");
 
     const saveButton = screen.getByRole("button", { name: /Save/ });
     await userEvent.click(saveButton);
@@ -224,7 +224,7 @@ describe("Onboarding", () => {
     await userEvent.click(grantAmountInput);
     await userEvent.paste("100");
     await userEvent.click(grantDateInput);
-    await userEvent.paste(Date.now().toLocaleString());
+    await userEvent.paste("2021-06-01");
 
     await userEvent.click(saveButton);
 
@@ -242,10 +242,9 @@ describe("Onboarding", () => {
     await userEvent.click(grantNameInput);
     await userEvent.paste("Series A Purchase");
     await userEvent.click(grantAmountInput);
-    // Something is wrong with this input *hint*
-    // userEvent.paste(grantAmountInput, '800')
-    await userEvent.click(grantNameInput);
-    await userEvent.paste("12/12/2020");
+    await userEvent.paste("800");
+    await userEvent.click(grantDateInput);
+    await userEvent.paste("2020-12-12");
 
     await userEvent.click(saveButton);
 

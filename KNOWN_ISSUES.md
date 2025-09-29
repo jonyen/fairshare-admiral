@@ -23,7 +23,10 @@ Bugs & Other Issues
 * Next shareholder button during onboarding exits (critical)
 * Reduce width of buttons in onboarding screen (minor)
 * Internationalization for dates (minor)
+* Truncated labels for pie chart (major)
+* Close icon in modal overlaps with the text box (minor)
 
 Improvements
 * Show percentage for pie chart
 * Need a way to edit/remove existing grants
+* Import users from file
