@@ -45,8 +45,13 @@ export const Td: React.FC<{
   children?: React.ReactNode;
   className?: string;
   colSpan?: number;
-}> = ({ children, className = '', colSpan }) => (
-  <td className={`px-6 py-4 whitespace-nowrap text-sm text-gray-900 ${className}`} colSpan={colSpan}>
+  'data-testid'?: string;
+}> = ({ children, className = '', colSpan, 'data-testid': testId }) => (
+  <td
+    className={`px-6 py-4 whitespace-nowrap text-sm text-gray-900 ${className}`}
+    colSpan={colSpan}
+    data-testid={testId}
+  >
     {children}
   </td>
 );

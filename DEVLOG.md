@@ -25,11 +25,24 @@ Bugs & Other Issues
 * Close icon in modal overlaps with the text box (minor)
 
 Improvements
-* Show percentage for pie chart
+* Show percentages for pie chart
 * Need a way to edit/remove existing grants :done:
 * Import users from file
 * Display validation errors (minor)
 * Data doesn't persist between sessions (critical) 
 * Show a toast when edit/add/remove has been performed
-* Add ability to sort and filter
+* Add ability to sort and filter 
 * Add actual password authentication
+* Fix unit tests
+* Display selected group for tab
+* Connect shareholders to actual users
+* Playwright testing
+* Storybook components
+
+Summary
+* Fixed layout issues and addressed some basic user functionalities. Ensured that the onboarding flow worked properly. Added some additional functionality for dashboard display and also some tweaks to the user shareholder updates.
+* Fixed a couple of TODO items, updated some unit tests.
+
+If I had more time, I would want to brighten up the appearance of the dashboard instead of the grays for the theme. Would also want to add more rigorous testing around the onboarding process. I was having a weird bug that caused the onboarding to go back to the home page, so I'd want to make sure that this gets nailed down pretty solidly. With more time, I would want to set up Playwright tests as well, to ensure that each step-by-step process is working properly.
+
+

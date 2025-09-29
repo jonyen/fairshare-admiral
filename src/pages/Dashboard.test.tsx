@@ -82,7 +82,7 @@ describe("Dashboard", () => {
       { wrapper: ThemeWrapper }
     );
 
-    await screen.findByText("Tonya");
+    await screen.findByTestId("shareholder-Tonya-grants");
     expect(screen.getByTestId("shareholder-Tonya-grants")).toHaveTextContent(
       "2"
     );
@@ -90,7 +90,7 @@ describe("Dashboard", () => {
       "founder"
     );
     expect(screen.getByTestId("shareholder-Tonya-shares")).toHaveTextContent(
-      "1500"
+      "1,500"
     );
 
     expect(screen.getByTestId("shareholder-Tony-grants")).toHaveTextContent(
