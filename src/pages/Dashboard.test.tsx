@@ -194,7 +194,7 @@ describe("Dashboard", () => {
   });
 
   it("should show groups in groups chart", async () => {
-    const Router = getTestRouter("/dashboard/investor");
+    const Router = getTestRouter("/dashboard/group");
     const handlers = getHandlers(
       {
         company: { name: "My Company" },
@@ -207,21 +207,21 @@ describe("Dashboard", () => {
             id: 1,
             name: "Initial Grant",
             amount: 1000,
-            issued: Date.now().toLocaleString(),
+            issued: "2020-01-01",
             type: "common",
           },
           2: {
             id: 2,
             name: "Incentive Package 2020",
             amount: 500,
-            issued: Date.now().toLocaleString(),
+            issued: "2020-01-02",
             type: "common",
           },
           6: {
             id: 6,
             name: "Series A Purchase",
             amount: 500,
-            issued: Date.now().toLocaleString(),
+            issued: "2020-01-03",
             type: "common",
           },
         },

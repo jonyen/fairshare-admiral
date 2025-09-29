@@ -89,7 +89,7 @@ describe("Onboarding", () => {
     );
 
     const companyNameField = screen.getByRole("textbox", {
-      name: /What company are we examining/,
+      name: /What company are we examining\?/,
     });
     await userEvent.type(companyNameField, "Admiral");
     expect(companyNameField).toHaveValue("Admiral");
