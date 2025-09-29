@@ -119,6 +119,57 @@ export function getHandlers(
       }
     ),
 
+    http.put(
+      "/grant/:id",
+      async ({ request, params }) => {
+        const grantId = parseInt(params.id as string, 10);
+        const body = await request.json() as Grant;
+
+        if (!grants[grantId]) {
+          return new Response(JSON.stringify({ error: "Grant not found" }), {
+            status: 404,
+            headers: { 'Content-Type': 'application/json' }
+          });
+        }
+
+        // Update the grant
+        grants[grantId] = { ...grants[grantId], ...body, id: grantId };
+
+        return new Response(JSON.stringify(grants[grantId]), {
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+    ),
+
+    http.delete(
+      "/grant/:id",
+      async ({ params }) => {
+        const grantId = parseInt(params.id as string, 10);
+
+        if (!grants[grantId]) {
+          return new Response(JSON.stringify({ error: "Grant not found" }), {
+            status: 404,
+            headers: { 'Content-Type': 'application/json' }
+          });
+        }
+
+        // Remove the grant from any shareholders that have it
+        Object.values(shareholders).forEach(shareholder => {
+          const grantIndex = shareholder.grants.indexOf(grantId);
+          if (grantIndex !== -1) {
+            shareholder.grants.splice(grantIndex, 1);
+          }
+        });
+
+        // Delete the grant
+        delete grants[grantId];
+
+        return new Response(JSON.stringify({ success: true }), {
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+    ),
+
     http.post("/user/new", async ({ request }) => {
       const body = await request.json() as { email: string; name: string };
       const { email, name } = body;

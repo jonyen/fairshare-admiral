@@ -20,6 +20,8 @@ import {
   AlertTitle,
   AlertIcon,
   TableCaption,
+  Select,
+  SelectItem,
 } from "../components";
 import avatarSvg from "../assets/avatar-male.svg";
 import { Grant, Shareholder } from "../types";
@@ -110,6 +112,46 @@ export function ShareholderPage() {
     }
   );
 
+  const deleteGrantMutation = useMutation<void, unknown, number>(
+    (grantId) =>
+      fetch(`/grant/${grantId}`, {
+        method: "DELETE",
+      }).then((res) => res.json()),
+    {
+      onSuccess: (_, grantId) => {
+        // Remove grant from grants cache
+        queryClient.setQueryData<{ [id: number]: Grant } | undefined>(
+          "grants",
+          (g) => {
+            if (g) {
+              return produce(g, (draft) => {
+                delete draft[grantId];
+              });
+            }
+          }
+        );
+
+        // Remove grant from shareholder's grants array
+        queryClient.setQueryData<{ [id: number]: Shareholder } | undefined>(
+          "shareholders",
+          (s) => {
+            if (s) {
+              return produce(s, (draft) => {
+                const shareholder = draft[parseInt(shareholderID, 10)];
+                if (shareholder) {
+                  const grantIndex = shareholder.grants.indexOf(grantId);
+                  if (grantIndex !== -1) {
+                    shareholder.grants.splice(grantIndex, 1);
+                  }
+                }
+              });
+            }
+          }
+        );
+      },
+    }
+  );
+
   function handleEditGrant(grant: Grant) {
     setEditingGrant(grant);
     setDraftGrant({
@@ -119,6 +161,12 @@ export function ShareholderPage() {
       type: grant.type,
     });
     onEditOpen();
+  }
+
+  function handleDeleteGrant(grantId: number) {
+    if (window.confirm("Are you sure you want to delete this grant?")) {
+      deleteGrantMutation.mutate(grantId);
+    }
   }
 
   async function submitGrant(e: React.FormEvent) {
@@ -247,13 +295,24 @@ export function ShareholderPage() {
                   <Td>{amount}</Td>
                   <Td>{type}</Td>
                   <Td>
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => handleEditGrant(grant)}
-                    >
-                      Edit
-                    </Button>
+                    <div className="flex gap-2">
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => handleEditGrant(grant)}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        colorScheme="red"
+                        onClick={() => handleDeleteGrant(grant.id)}
+                        disabled={deleteGrantMutation.isLoading}
+                      >
+                        Delete
+                      </Button>
+                    </div>
                   </Td>
                 </Tr>
               );
@@ -317,6 +376,92 @@ export function ShareholderPage() {
             >
               Save
             </Button>
+          </Stack>
+        </ModalContent>
+      </Modal>
+
+      {/* Edit Grant Modal */}
+      <Modal isOpen={isEditOpen} onClose={onEditClose} title="Edit Grant">
+        <ModalContent>
+          <Stack as="form" onSubmit={submitEditGrant} spacing="6">
+            <Text>
+              Edit the grant details below.
+            </Text>
+
+            <FormControl>
+              <Input
+                variant="flushed"
+                placeholder="Grant Name"
+                value={draftGrant.name}
+                onChange={(e) =>
+                  setDraftGrant((g) => ({ ...g, name: e.target.value }))
+                }
+              />
+            </FormControl>
+
+            <FormControl>
+              <Input
+                variant="flushed"
+                placeholder="Shares"
+                type="number"
+                value={draftGrant.amount || ""}
+                onChange={(e) =>
+                  setDraftGrant((g) => ({
+                    ...g,
+                    amount: parseInt(e.target.value, 10) || 0,
+                  }))
+                }
+              />
+            </FormControl>
+
+            <FormControl>
+              <Input
+                variant="flushed"
+                type="date"
+                value={draftGrant.issued}
+                onChange={(e) =>
+                  setDraftGrant((g) => ({ ...g, issued: e.target.value }))
+                }
+              />
+            </FormControl>
+
+            <FormControl>
+              <Select
+                placeholder="Select grant type"
+                value={draftGrant.type}
+                onValueChange={(value) =>
+                  setDraftGrant((g) => ({ ...g, type: value as any }))
+                }
+              >
+                <SelectItem value="common">Common Stock</SelectItem>
+                <SelectItem value="preferred">Preferred Stock</SelectItem>
+                <SelectItem value="options">Stock Options</SelectItem>
+                <SelectItem value="warrants">Warrants</SelectItem>
+              </Select>
+            </FormControl>
+
+            <Stack direction="row" spacing="4">
+              <Button
+                variant="outline"
+                onClick={() => {
+                  onEditClose();
+                  setEditingGrant(null);
+                  setDraftGrant({ name: "", amount: 0, issued: "", type: "common" });
+                }}
+                size="lg"
+                className="flex-1"
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                disabled={!draftGrant.name.trim() || draftGrant.amount <= 0 || !draftGrant.issued}
+                size="lg"
+                className="flex-1"
+              >
+                Update Grant
+              </Button>
+            </Stack>
           </Stack>
         </ModalContent>
       </Modal>

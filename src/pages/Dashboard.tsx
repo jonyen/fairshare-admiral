@@ -187,7 +187,7 @@ export function Dashboard() {
         />
       </div>
 
-      <Stack divider={<StackDivider />} spacing="6">
+      <Stack spacing="6">
         <Heading>Shareholders</Heading>
         <Table>
           <Thead>
