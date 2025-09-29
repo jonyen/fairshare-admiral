@@ -1,0 +1,329 @@
+{
+  "shareholders": {
+    "1": {
+      "name": "Jon Yen",
+      "grants": [1, 2],
+      "id": 1,
+      "group": "founder"
+    },
+    "2": {
+      "name": "Sarah Chen",
+      "grants": [3, 4],
+      "id": 2,
+      "group": "employee"
+    },
+    "3": {
+      "name": "Michael Rodriguez",
+      "grants": [5],
+      "id": 3,
+      "group": "investor"
+    },
+    "4": {
+      "name": "Emily Johnson",
+      "grants": [6, 7, 8],
+      "id": 4,
+      "group": "employee"
+    },
+    "5": {
+      "name": "David Thompson",
+      "grants": [9],
+      "id": 5,
+      "group": "founder"
+    },
+    "6": {
+      "name": "Lisa Wang",
+      "grants": [10, 11],
+      "id": 6,
+      "group": "employee"
+    },
+    "7": {
+      "name": "Robert Martinez",
+      "grants": [12],
+      "id": 7,
+      "group": "investor"
+    },
+    "8": {
+      "name": "Jennifer Kim",
+      "grants": [13, 14],
+      "id": 8,
+      "group": "employee"
+    },
+    "9": {
+      "name": "Alex Smith",
+      "grants": [15],
+      "id": 9,
+      "group": "advisor"
+    },
+    "10": {
+      "name": "Maria Garcia",
+      "grants": [16, 17],
+      "id": 10,
+      "group": "employee"
+    },
+    "11": {
+      "name": "James Wilson",
+      "grants": [18],
+      "id": 11,
+      "group": "investor"
+    },
+    "12": {
+      "name": "Amanda Lee",
+      "grants": [19, 20],
+      "id": 12,
+      "group": "employee"
+    },
+    "13": {
+      "name": "Christopher Brown",
+      "grants": [21],
+      "id": 13,
+      "group": "advisor"
+    },
+    "14": {
+      "name": "Nicole Davis",
+      "grants": [22, 23],
+      "id": 14,
+      "group": "employee"
+    },
+    "15": {
+      "name": "Daniel Miller",
+      "grants": [24],
+      "id": 15,
+      "group": "investor"
+    }
+  },
+  "users": {
+    "jonyen@gmail.com": {
+      "email": "jonyen@gmail.com",
+      "name": "Jon Yen"
+    },
+    "sarah.chen@company.com": {
+      "email": "sarah.chen@company.com",
+      "name": "Sarah Chen"
+    },
+    "michael.rodriguez@investor.com": {
+      "email": "michael.rodriguez@investor.com",
+      "name": "Michael Rodriguez"
+    },
+    "emily.johnson@company.com": {
+      "email": "emily.johnson@company.com",
+      "name": "Emily Johnson"
+    },
+    "david.thompson@company.com": {
+      "email": "david.thompson@company.com",
+      "name": "David Thompson"
+    },
+    "lisa.wang@company.com": {
+      "email": "lisa.wang@company.com",
+      "name": "Lisa Wang"
+    },
+    "robert.martinez@vc.com": {
+      "email": "robert.martinez@vc.com",
+      "name": "Robert Martinez"
+    },
+    "jennifer.kim@company.com": {
+      "email": "jennifer.kim@company.com",
+      "name": "Jennifer Kim"
+    },
+    "alex.smith@advisor.com": {
+      "email": "alex.smith@advisor.com",
+      "name": "Alex Smith"
+    },
+    "maria.garcia@company.com": {
+      "email": "maria.garcia@company.com",
+      "name": "Maria Garcia"
+    },
+    "james.wilson@fund.com": {
+      "email": "james.wilson@fund.com",
+      "name": "James Wilson"
+    },
+    "amanda.lee@company.com": {
+      "email": "amanda.lee@company.com",
+      "name": "Amanda Lee"
+    },
+    "christopher.brown@advisor.com": {
+      "email": "christopher.brown@advisor.com",
+      "name": "Christopher Brown"
+    },
+    "nicole.davis@company.com": {
+      "email": "nicole.davis@company.com",
+      "name": "Nicole Davis"
+    },
+    "daniel.miller@capital.com": {
+      "email": "daniel.miller@capital.com",
+      "name": "Daniel Miller"
+    }
+  },
+  "grants": {
+    "1": {
+      "name": "Founder Common Stock",
+      "issued": "2022-01-15",
+      "amount": 2500000,
+      "id": 1,
+      "type": "common"
+    },
+    "2": {
+      "name": "Founder Preferred Stock",
+      "issued": "2022-01-15",
+      "amount": 500000,
+      "id": 2,
+      "type": "preferred"
+    },
+    "3": {
+      "name": "Employee Stock Options",
+      "issued": "2022-03-01",
+      "amount": 25000,
+      "id": 3,
+      "type": "option"
+    },
+    "4": {
+      "name": "Performance Bonus Shares",
+      "issued": "2023-01-01",
+      "amount": 15000,
+      "id": 4,
+      "type": "common"
+    },
+    "5": {
+      "name": "Series A Investment",
+      "issued": "2022-08-15",
+      "amount": 750000,
+      "id": 5,
+      "type": "preferred"
+    },
+    "6": {
+      "name": "Employee Stock Options",
+      "issued": "2022-05-15",
+      "amount": 30000,
+      "id": 6,
+      "type": "option"
+    },
+    "7": {
+      "name": "Retention Grant",
+      "issued": "2023-05-15",
+      "amount": 20000,
+      "id": 7,
+      "type": "common"
+    },
+    "8": {
+      "name": "Promotion Grant",
+      "issued": "2023-12-01",
+      "amount": 10000,
+      "id": 8,
+      "type": "option"
+    },
+    "9": {
+      "name": "Co-Founder Common Stock",
+      "issued": "2022-01-15",
+      "amount": 1500000,
+      "id": 9,
+      "type": "common"
+    },
+    "10": {
+      "name": "Employee Stock Options",
+      "issued": "2022-07-01",
+      "amount": 22000,
+      "id": 10,
+      "type": "option"
+    },
+    "11": {
+      "name": "Annual Refresh Grant",
+      "issued": "2024-01-01",
+      "amount": 12000,
+      "id": 11,
+      "type": "common"
+    },
+    "12": {
+      "name": "Series B Investment",
+      "issued": "2023-06-30",
+      "amount": 1200000,
+      "id": 12,
+      "type": "preferred"
+    },
+    "13": {
+      "name": "Employee Stock Options",
+      "issued": "2022-09-01",
+      "amount": 28000,
+      "id": 13,
+      "type": "option"
+    },
+    "14": {
+      "name": "Performance Bonus Shares",
+      "issued": "2023-12-31",
+      "amount": 8000,
+      "id": 14,
+      "type": "common"
+    },
+    "15": {
+      "name": "Advisor Equity Grant",
+      "issued": "2022-04-01",
+      "amount": 50000,
+      "id": 15,
+      "type": "common"
+    },
+    "16": {
+      "name": "Employee Stock Options",
+      "issued": "2022-11-15",
+      "amount": 26000,
+      "id": 16,
+      "type": "option"
+    },
+    "17": {
+      "name": "Spot Bonus Grant",
+      "issued": "2023-08-15",
+      "amount": 5000,
+      "id": 17,
+      "type": "common"
+    },
+    "18": {
+      "name": "Seed Investment",
+      "issued": "2021-12-01",
+      "amount": 500000,
+      "id": 18,
+      "type": "preferred"
+    },
+    "19": {
+      "name": "Employee Stock Options",
+      "issued": "2023-02-01",
+      "amount": 24000,
+      "id": 19,
+      "type": "option"
+    },
+    "20": {
+      "name": "Promotion Grant",
+      "issued": "2023-09-01",
+      "amount": 15000,
+      "id": 20,
+      "type": "common"
+    },
+    "21": {
+      "name": "Advisor Equity Grant",
+      "issued": "2022-06-15",
+      "amount": 40000,
+      "id": 21,
+      "type": "common"
+    },
+    "22": {
+      "name": "Employee Stock Options",
+      "issued": "2023-03-15",
+      "amount": 27000,
+      "id": 22,
+      "type": "option"
+    },
+    "23": {
+      "name": "Annual Refresh Grant",
+      "issued": "2024-01-01",
+      "amount": 10000,
+      "id": 23,
+      "type": "common"
+    },
+    "24": {
+      "name": "Series A Investment",
+      "issued": "2022-08-15",
+      "amount": 950000,
+      "id": 24,
+      "type": "preferred"
+    }
+  },
+  "company": {
+    "name": "Admiral"
+  }
+}

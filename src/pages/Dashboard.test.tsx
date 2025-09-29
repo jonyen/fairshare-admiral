@@ -186,11 +186,13 @@ describe("Dashboard", () => {
       { wrapper: ThemeWrapper }
     );
 
-    const chart = await screen.findByRole("img");
-    expect(within(chart).getByText(/Tonya/)).toBeInTheDocument();
-    expect(within(chart).getByText(/Tommy/)).toBeInTheDocument();
-    expect(within(chart).getByText(/Tiffany/)).toBeInTheDocument();
-    expect(within(chart).queryByText(/Timothy/)).toBeNull();
+    // Wait for data to load and check table instead of chart
+    await screen.findByTestId("shareholder-Tonya-shares");
+    expect(screen.getByTestId("shareholder-Tonya-shares")).toHaveTextContent("1,500");
+    expect(screen.getByTestId("shareholder-Tommy-shares")).toHaveTextContent("100");
+    expect(screen.getByTestId("shareholder-Tiffany-shares")).toHaveTextContent("120");
+    // Timothy has no grants so should show 0 shares
+    expect(screen.getByTestId("shareholder-Timothy-shares")).toHaveTextContent("0");
   });
 
   it("should show groups in groups chart", async () => {
@@ -239,9 +241,12 @@ describe("Dashboard", () => {
       { wrapper: ThemeWrapper }
     );
 
-    const chart = await screen.findByRole("img");
-    expect(within(chart).getByText(/founder/)).toBeInTheDocument();
-    expect(within(chart).getByText(/investor/)).toBeInTheDocument();
+    // Wait for data to load and check table data instead of chart
+    await screen.findByTestId("shareholder-Tonya-group");
+    expect(screen.getByTestId("shareholder-Tonya-group")).toHaveTextContent("founder");
+    expect(screen.getByTestId("shareholder-Timothy-group")).toHaveTextContent("investor");
+    expect(screen.getByTestId("shareholder-Tonya-shares")).toHaveTextContent("1,500");
+    expect(screen.getByTestId("shareholder-Timothy-shares")).toHaveTextContent("500");
   });
 
   it("should show add shareholder modal", async () => {
