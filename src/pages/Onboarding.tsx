@@ -400,8 +400,8 @@ export function ShareholderGrantsStep() {
   const nextShareholderId = shareholderIds[currentIndex + 1];
 
   const nextLink = nextShareholderId !== undefined
-    ? `/grants/${nextShareholderId}`
-    : `/done`;
+    ? `/start/grants/${nextShareholderId}`
+    : `/start/done`;
 
   function handleNext() {
     navigate(nextLink);
@@ -645,6 +645,7 @@ export function DoneStep() {
       console.log('saveData() called - saving data...');
       console.log('SHAREHOLDERS', shareholders)
 
+      debugger
       try {
         const user = await userMutation.mutateAsync({ email, name: userName });
         await Promise.all([
@@ -670,6 +671,7 @@ export function DoneStep() {
       }
     }
 
+    debugger
     saveData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
