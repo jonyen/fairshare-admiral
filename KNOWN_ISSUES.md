@@ -26,9 +26,10 @@ Bugs & Other Issues
 
 Improvements
 * Show percentage for pie chart
-* Need a way to edit/remove existing grants
+* Need a way to edit/remove existing grants :done:
 * Import users from file
 * Display validation errors (minor)
 * Data doesn't persist between sessions (critical) 
 * Show a toast when edit/add/remove has been performed
 * Add ability to sort and filter
+* Add actual password authentication
