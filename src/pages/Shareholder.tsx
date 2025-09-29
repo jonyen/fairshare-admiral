@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import {
   Text,
   Heading,
@@ -118,6 +118,14 @@ export function ShareholderPage() {
         >
           Fair Share
         </Heading>
+        <Button
+          as={Link}
+          to="/dashboard"
+          variant="outline"
+          size="md"
+        >
+          ← Back to Dashboard
+        </Button>
       </Stack>
       <Heading size="2xl">
         Shareholder
