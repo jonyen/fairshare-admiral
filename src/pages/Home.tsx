@@ -4,92 +4,96 @@ import holdDocSvg from "../assets/hold-doc.svg";
 
 export function Home() {
   return (
-    <div>
-      <Stack direction="column" alignItems="center" spacing="8" className="min-h-screen">
-        <div>
-          <img 
-            src={holdDocSvg} 
-            width="50%" 
-            height="auto" 
-            alt="Hold Document" 
+    <div className="min-h-screen bg-gray-50">
+      <Stack direction="column" alignItems="center" justify="center" spacing="8" className="min-h-screen px-4 py-8">
+        {/* Hero Image */}
+        <div className="flex justify-center">
+          <img
+            src={holdDocSvg}
+            className="w-64 h-auto max-w-full"
+            alt="Hold Document"
           />
         </div>
-        
-        <div>
-          <Badge>
-            🚀 AI-Powered Platform
-          </Badge>
-          
-          <Heading size="4xl">
+
+        {/* Hero Content */}
+        <div className="text-center max-w-4xl">
+          <div className="mb-6">
+            <Badge>
+              🚀 AI-Powered Platform
+            </Badge>
+          </div>
+
+          <Heading size="4xl" className="mb-6">
             Fair Share
           </Heading>
-          
-          <Text fontSize="xl" align="center" fontWeight="medium">
+
+          <Text fontSize="xl" align="center" className="mb-6 text-gray-600">
             We make understanding equity easy–so everyone is on equal footing
           </Text>
 
-          <Text fontSize="md">
+          <Text fontSize="md" className="mb-12 text-gray-700 max-w-2xl mx-auto">
             Empower your employees and investors to understand and manage their
             equity all in one place, using the world's <strong className="font-semibold">first</strong> AI
             powered 🤖 equity management platform.
           </Text>
-          
+
           {/* Feature highlights */}
-          <div>
-            <div>
-              <div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            <div className="text-center">
+              <div className="text-4xl mb-4">
                 <span>📊</span>
               </div>
-              <Heading size="lg">Transparent Tracking</Heading>
-              <Text fontSize="sm">Real-time visibility into equity ownership and vesting schedules</Text>
+              <Heading size="lg" className="mb-2">Transparent Tracking</Heading>
+              <Text fontSize="sm" className="text-gray-600">Real-time visibility into equity ownership and vesting schedules</Text>
             </div>
-            
-            <div>
-              <div>
+
+            <div className="text-center">
+              <div className="text-4xl mb-4">
                 <span>🤖</span>
               </div>
-              <Heading size="lg">AI-Powered Insights</Heading>
-              <Text fontSize="sm">Smart recommendations and automated compliance management</Text>
+              <Heading size="lg" className="mb-2">AI-Powered Insights</Heading>
+              <Text fontSize="sm" className="text-gray-600">Smart recommendations and automated compliance management</Text>
             </div>
-            
-            <div>
-              <div>
+
+            <div className="text-center">
+              <div className="text-4xl mb-4">
                 <span>🔒</span>
               </div>
-              <Heading size="lg">Secure & Compliant</Heading>
-              <Text fontSize="sm">Enterprise-grade security with regulatory compliance built-in</Text>
+              <Heading size="lg" className="mb-2">Secure & Compliant</Heading>
+              <Text fontSize="sm" className="text-gray-600">Enterprise-grade security with regulatory compliance built-in</Text>
             </div>
           </div>
         </div>
-        
-        <div>
-          <Stack direction="row" spacing="6">
-            <Button 
-              as={Link} 
-              to="/start" 
+
+        {/* CTA Section */}
+        <div className="text-center">
+          <Stack direction="row" spacing="6" className="mb-8">
+            <Button
+              as={Link}
+              to="/start"
               size="lg"
             >
               Get Started
             </Button>
-            <Button 
-              as={Link} 
-              to="/signin" 
-              variant="ghost" 
+            <Button
+              as={Link}
+              to="/signin"
+              variant="ghost"
               size="lg"
             >
               Sign In
             </Button>
           </Stack>
-          
+
           {/* Social proof */}
-          <div>
-            <Text fontSize="sm">
+          <div className="text-center">
+            <Text fontSize="sm" className="text-gray-500 mb-4">
               Trusted by leading companies
             </Text>
-            <div>
-              <div></div>
-              <div></div>
-              <div></div>
+            <div className="flex justify-center space-x-6">
+              <div className="w-16 h-8 bg-gray-200 rounded"></div>
+              <div className="w-16 h-8 bg-gray-200 rounded"></div>
+              <div className="w-16 h-8 bg-gray-200 rounded"></div>
             </div>
           </div>
         </div>

@@ -29,8 +29,8 @@ export const Select: React.FC<SelectProps> = ({
 }) => {
   return (
     <SelectPrimitive.Root value={value} onValueChange={onValueChange} disabled={disabled}>
-      <SelectPrimitive.Trigger 
-        className={`w-full border rounded focus:outline-none disabled:cursor-not-allowed flex items-center justify-between ${sizeClasses[size]} ${className}`}
+      <SelectPrimitive.Trigger
+        className={`w-full bg-white border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-teal-500 focus:border-teal-500 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:opacity-50 flex items-center justify-between transition-colors ${sizeClasses[size]} ${className}`}
       >
         <SelectPrimitive.Value placeholder={placeholder} />
         <SelectPrimitive.Icon className="ml-2">
@@ -38,7 +38,7 @@ export const Select: React.FC<SelectProps> = ({
         </SelectPrimitive.Icon>
       </SelectPrimitive.Trigger>
       <SelectPrimitive.Portal>
-        <SelectPrimitive.Content className="border rounded overflow-hidden z-50">
+        <SelectPrimitive.Content className="bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden z-50">
           <SelectPrimitive.Viewport className="p-1">
             {children}
           </SelectPrimitive.Viewport>
@@ -49,18 +49,18 @@ export const Select: React.FC<SelectProps> = ({
 };
 
 // SelectItem component for backward compatibility
-export const SelectItem: React.FC<{ 
-  value: string; 
+export const SelectItem: React.FC<{
+  value: string;
   children: React.ReactNode;
   className?: string;
 }> = ({ value, children, className = '' }) => (
-  <SelectPrimitive.Item 
-    value={value} 
-    className={`px-3 py-2 text-sm cursor-pointer rounded flex items-center justify-between ${className}`}
+  <SelectPrimitive.Item
+    value={value}
+    className={`px-3 py-2 text-sm cursor-pointer rounded hover:bg-teal-50 focus:bg-teal-50 focus:outline-none flex items-center justify-between ${className}`}
   >
     <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
     <SelectPrimitive.ItemIndicator>
-      <Check className="w-4 h-4" />
+      <Check className="w-4 h-4 text-teal-600" />
     </SelectPrimitive.ItemIndicator>
   </SelectPrimitive.Item>
 );

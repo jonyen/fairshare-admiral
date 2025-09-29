@@ -13,7 +13,7 @@ import userEvent from "@testing-library/user-event";
 
 describe("Dashboard", () => {
   it("should show a row for all shareholders", async () => {
-    const Router = getTestRouter("/dashboard");
+    const Router = getTestRouter("/dashboard/investor");
     const handlers = getHandlers(
       {
         company: { name: "My Company" },
@@ -75,7 +75,7 @@ describe("Dashboard", () => {
     render(
       <Router>
         <Routes>
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard/:mode" element={<Dashboard />} />
         </Routes>
       </Router>,
       { wrapper: ThemeWrapper }
@@ -238,18 +238,13 @@ describe("Dashboard", () => {
       { wrapper: ThemeWrapper }
     );
 
-    const groupsChartButton = await screen.findByRole("link", {
-      name: /by group/i,
-    });
-    await userEvent.click(groupsChartButton);
-
     const chart = await screen.findByRole("img");
     expect(within(chart).getByText(/founder/)).toBeInTheDocument();
     expect(within(chart).getByText(/investor/)).toBeInTheDocument();
   });
 
   it("should allow adding new shareholders", async () => {
-    const Router = getTestRouter("/dashboard");
+    const Router = getTestRouter("/dashboard/group");
     const handlers = getHandlers(
       {
         company: { name: "My Company" },
@@ -280,7 +275,7 @@ describe("Dashboard", () => {
     render(
       <Router>
         <Routes>
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard/:mode" element={<Dashboard />} />
         </Routes>
       </Router>,
       { wrapper: ThemeWrapper }

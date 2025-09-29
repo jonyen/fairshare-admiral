@@ -51,17 +51,18 @@ export const OnboardingContext = React.createContext<
 // Progress indicator component
 function ProgressIndicator({ currentStep, totalSteps }: { currentStep: number; totalSteps: number }) {
   return (
-    <div>
-      <div>
-        <Text fontSize="sm" fontWeight="medium">
+    <div className="space-y-2">
+      <div className="flex justify-between items-center">
+        <Text fontSize="sm" fontWeight="medium" className="text-gray-600">
           Step {currentStep} of {totalSteps}
         </Text>
-        <Text fontSize="sm" fontWeight="semibold">
+        <Text fontSize="sm" fontWeight="semibold" className="text-blue-600">
           {Math.round((currentStep / totalSteps) * 100)}% Complete
         </Text>
       </div>
-      <div>
-        <div 
+      <div className="w-full bg-gray-200 rounded-full h-2">
+        <div
+          className="bg-blue-600 h-2 rounded-full transition-all duration-300 ease-out"
           style={{ width: `${(currentStep / totalSteps) * 100}%` }}
         ></div>
       </div>
@@ -103,39 +104,38 @@ export function UserStep() {
   const isFormValid = userName.trim().length >= 2 && email.trim().length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   return (
-    <div>
+    <div className="max-w-md mx-auto">
       <Stack as="form" onSubmit={onSubmit} spacing="8">
-        <div>
-          <div>
+        <div className="text-center space-y-2">
+          <div className="text-6xl mb-4">
             <span>🚀</span>
           </div>
           <Heading size="2xl">Let's get started</Heading>
-          <Text>Create your equity management account</Text>
+          <Text className="text-gray-600">Create your equity management account</Text>
         </div>
-        
+
         <ProgressIndicator currentStep={1} totalSteps={4} />
-        
-        <div>
+
+        <Stack spacing="6">
           <FormControl id="userName" size="lg" isInvalid={!!errors.userName}>
-                      <FormLabel>First, who is setting up this account?</FormLabel>
-          <Input
-            type="text"
-            placeholder="Your Name"
-            onChange={(e) => {
-              dispatch({ type: "updateUser", payload: e.target.value });
-              if (errors.userName) setErrors(prev => ({ ...prev, userName: undefined }));
-            }}
-            value={userName}
-            size="lg"
-          />
-          {errors.userName && (
-            <FormHelperText>
-              {errors.userName}
-            </FormHelperText>
-          )}
-        </FormControl>
-        
-        <div>
+            <FormLabel>First, who is setting up this account?</FormLabel>
+            <Input
+              type="text"
+              placeholder="Your Name"
+              onChange={(e) => {
+                dispatch({ type: "updateUser", payload: e.target.value });
+                if (errors.userName) setErrors(prev => ({ ...prev, userName: undefined }));
+              }}
+              value={userName}
+              size="lg"
+            />
+            {errors.userName && (
+              <FormHelperText>
+                {errors.userName}
+              </FormHelperText>
+            )}
+          </FormControl>
+
           <FormControl id="email" size="lg" isInvalid={!!errors.email}>
             <FormLabel>What email will you use to sign in?</FormLabel>
             <Input
@@ -152,16 +152,16 @@ export function UserStep() {
               {errors.email || "We only use this to create your account."}
             </FormHelperText>
           </FormControl>
-        </div>
-        
-        <Button
-          type="submit"
-          disabled={!isFormValid}
-          size="lg"
-        >
+
+          <Button
+            type="submit"
+            disabled={!isFormValid}
+            size="lg"
+            className="w-full"
+          >
             Next
           </Button>
-        </div>
+        </Stack>
       </Stack>
     </div>
   );
@@ -184,19 +184,19 @@ export function CompanyStep() {
   const isFormValid = companyName.trim().length >= 2;
 
   return (
-    <div>
+    <div className="max-w-md mx-auto">
       <Stack as="form" onSubmit={onSubmit} spacing="8">
-        <div>
-          <div>
+        <div className="text-center space-y-2">
+          <div className="text-6xl mb-4">
             <span>🏢</span>
           </div>
           <Heading size="2xl">Company Information</Heading>
-          <Text>Tell us about your company</Text>
+          <Text className="text-gray-600">Tell us about your company</Text>
         </div>
-        
+
         <ProgressIndicator currentStep={2} totalSteps={4} />
-        
-        <div>
+
+        <Stack spacing="6">
           <FormControl id="companyName" size="lg" isInvalid={!!error}>
             <FormLabel>What company are we examining?</FormLabel>
             <Input
@@ -215,24 +215,26 @@ export function CompanyStep() {
               </FormHelperText>
             )}
           </FormControl>
-          
+
           <Stack direction="row" spacing="4">
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               onClick={() => navigate("../user")}
               size="lg"
+              className="flex-1"
             >
               Back
             </Button>
-            <Button 
-              type="submit" 
-              disabled={!isFormValid} 
+            <Button
+              type="submit"
+              disabled={!isFormValid}
               size="lg"
+              className="flex-1"
             >
               Next
             </Button>
           </Stack>
-        </div>
+        </Stack>
       </Stack>
     </div>
   );
@@ -262,39 +264,41 @@ export function ShareholdersStep() {
   const hasShareholders = Object.keys(shareholders).length > 0;
 
   return (
-    <div>
+    <div className="max-w-2xl mx-auto">
       <Stack spacing="8">
-        <div>
-          <div>
+        <div className="text-center space-y-2">
+          <div className="text-6xl mb-4">
             <span>👥</span>
           </div>
           <Heading size="2xl">Shareholder Structure</Heading>
-          <Text>Set up your shareholder structure</Text>
+          <Text className="text-gray-600">Set up your shareholder structure</Text>
         </div>
-        
+
         <ProgressIndicator currentStep={3} totalSteps={4} />
-        
-        <div>
-          <Text fontSize="lg">
+
+        <Stack spacing="6">
+          <Text fontSize="lg" align="center" className="text-gray-700">
             Who are <strong>{companyName}</strong>'s shareholders?
           </Text>
-          
+
           {hasShareholders ? (
-            <Stack divider={<StackDivider />} spacing="4">
-              {Object.values(shareholders).map((s, i) => (
-                <Stack justify="between" direction="row" key={i}>
-                  <Text fontSize="lg" fontWeight="semibold">{s.name}</Text>
-                  <Badge>{s.group}</Badge>
-                </Stack>
-              ))}
-            </Stack>
+            <div className="bg-white rounded-lg border border-gray-200 p-6">
+              <Stack divider={<StackDivider />} spacing="4">
+                {Object.values(shareholders).map((s, i) => (
+                  <Stack justify="between" direction="row" key={i}>
+                    <Text fontSize="lg" fontWeight="semibold">{s.name}</Text>
+                    <Badge>{s.group}</Badge>
+                  </Stack>
+                ))}
+              </Stack>
+            </div>
           ) : (
-            <div>
-              <Text fontSize="lg">No shareholders added yet</Text>
-              <Text fontSize="sm">Click "Add Shareholder" to get started</Text>
+            <div className="text-center py-8 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
+              <Text fontSize="lg" className="text-gray-600">No shareholders added yet</Text>
+              <Text fontSize="sm" className="text-gray-500">Click "Add Shareholder" to get started</Text>
             </div>
           )}
-          
+
           <Modal isOpen={isOpen} onClose={onClose} title="Add New Shareholder">
             <ModalContent>
               <Stack as="form" onSubmit={submitNewShareholder} spacing="6">
@@ -332,38 +336,41 @@ export function ShareholdersStep() {
                     <SelectItem value="employee">Employee</SelectItem>
                   </Select>
                 </FormControl>
-                <Button type="submit" size="lg">
+                <Button type="submit" size="lg" className="w-full">
                   Create
                 </Button>
               </Stack>
             </ModalContent>
           </Modal>
-          
-          <Stack direction="row" spacing="4">
-            <Button 
-              variant="outline" 
+
+          <Stack direction="row" spacing="4" className="pt-4">
+            <Button
+              variant="outline"
               onClick={() => navigate("../company")}
               size="lg"
+              className="flex-1"
             >
               Back
             </Button>
-            <Button 
-              variant="outline" 
-              onClick={onOpen} 
+            <Button
+              variant="outline"
+              onClick={onOpen}
               size="lg"
+              className="flex-1"
             >
               Add Shareholder
             </Button>
-            <Button 
-              as={Link} 
-              to="/start/grants" 
+            <Button
+              as={Link}
+              to="/start/grants"
               size="lg"
               disabled={!hasShareholders}
+              className="flex-1"
             >
               Next
             </Button>
           </Stack>
-        </div>
+        </Stack>
       </Stack>
     </div>
   );
@@ -416,24 +423,24 @@ export function ShareholderGrantsStep() {
   const totalSteps = 4;
 
   return (
-    <div>
+    <div className="max-w-4xl mx-auto">
       <Stack spacing="8">
-        <div>
-          <div>
+        <div className="text-center space-y-2">
+          <div className="text-6xl mb-4">
             <span>📊</span>
           </div>
           <Heading size="2xl">Equity Grants</Heading>
-          <Text>Set up equity grants for shareholders</Text>
+          <Text className="text-gray-600">Set up equity grants for shareholders</Text>
         </div>
-        
+
         <ProgressIndicator currentStep={currentStep} totalSteps={totalSteps} />
-        
-        <div>
-          <Text fontSize="lg">
+
+        <Stack spacing="6">
+          <Text fontSize="lg" align="center" className="text-gray-700">
             What grants does <strong>{shareholder.name}</strong> have?
           </Text>
-          
-          <div>
+
+          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
             <Table>
               <Thead>
                 <Tr>
@@ -458,20 +465,22 @@ export function ShareholderGrantsStep() {
                 ))}
                 {shareholder.grants.length === 0 && (
                   <Tr>
-                    <Td colSpan={4}>
-                      <Text>No grants to show for <strong>{shareholder.name}</strong></Text>
-                      <Text fontSize="sm">Click "Add Grant" to get started</Text>
+                    <Td colSpan={4} className="text-center py-8">
+                      <div className="text-center">
+                        <Text className="text-gray-600">No grants to show for <strong>{shareholder.name}</strong></Text>
+                        <Text fontSize="sm" className="text-gray-500">Click "Add Grant" to get started</Text>
+                      </div>
                     </Td>
                   </Tr>
                 )}
               </Tbody>
             </Table>
           </div>
-          
+
           <Modal isOpen={isOpen} onClose={onClose} title="Add New Grant">
             <ModalContent>
               <Stack as="form" onSubmit={submitGrant} spacing="6">
-                <Text>
+                <Text className="text-gray-600">
                   A <strong>Grant</strong> is any occasion where new shares are
                   issued to a shareholder.
                 </Text>
@@ -488,7 +497,7 @@ export function ShareholderGrantsStep() {
                     size="lg"
                   />
                 </FormControl>
-                
+
                 <FormControl>
                   <FormLabel>Number of Shares</FormLabel>
                   <Input
@@ -505,7 +514,7 @@ export function ShareholderGrantsStep() {
                     size="lg"
                   />
                 </FormControl>
-                
+
                 <FormControl>
                   <FormLabel>Grant Date</FormLabel>
                   <Input
@@ -518,7 +527,7 @@ export function ShareholderGrantsStep() {
                     size="lg"
                   />
                 </FormControl>
-                
+
                 <FormControl>
                   <FormLabel>Grant Type</FormLabel>
                   <Select
@@ -534,42 +543,46 @@ export function ShareholderGrantsStep() {
                     <SelectItem value="warrants">Warrants</SelectItem>
                   </Select>
                 </FormControl>
-                
-                <Button 
-                  type="submit" 
+
+                <Button
+                  type="submit"
                   size="lg"
                   disabled={!draftGrant.name.trim() || draftGrant.amount <= 0 || !draftGrant.issued}
+                  className="w-full"
                 >
                   Save Grant
                 </Button>
               </Stack>
             </ModalContent>
           </Modal>
-          
-          <Stack direction="row" spacing="4">
-            <Button 
-              variant="outline" 
+
+          <Stack direction="row" spacing="4" className="pt-4">
+            <Button
+              variant="outline"
               onClick={() => navigate("../shareholders")}
               size="lg"
+              className="flex-1"
             >
               Back
             </Button>
-            <Button 
-              variant="outline" 
-              onClick={onOpen} 
+            <Button
+              variant="outline"
+              onClick={onOpen}
               size="lg"
+              className="flex-1"
             >
               Add Grant
             </Button>
-            <Button 
-              as={Link} 
-              to={nextLink} 
+            <Button
+              as={Link}
+              to={nextLink}
               size="lg"
+              className="flex-1"
             >
               {nextShareholderId !== undefined ? 'Next Shareholder' : 'Finish Setup'}
             </Button>
           </Stack>
-        </div>
+        </Stack>
       </Stack>
     </div>
   );
@@ -643,26 +656,28 @@ export function DoneStep() {
   }, []);
 
   return (
-    <div>
+    <div className="max-w-md mx-auto">
       <Stack alignItems="center" spacing="8">
-        <div>
-          <div>
+        <div className="text-center space-y-2">
+          <div className="text-6xl mb-4">
             <span>🎉</span>
           </div>
           <Heading size="2xl">Almost Done!</Heading>
-          <Text>Setting up your equity management account</Text>
+          <Text className="text-gray-600">Setting up your equity management account</Text>
         </div>
-        
+
         <ProgressIndicator currentStep={4} totalSteps={4} />
-        
-        <div>
+
+        <div className="text-center space-y-4">
           <Spinner size="lg" />
-          <Text fontSize="lg" fontWeight="semibold">
-            Wrapping up...
-          </Text>
-          <Text fontSize="sm">
-            Creating your account and setting up your equity structure
-          </Text>
+          <div className="space-y-2">
+            <Text fontSize="lg" fontWeight="semibold" className="text-gray-800">
+              Wrapping up...
+            </Text>
+            <Text fontSize="sm" className="text-gray-600">
+              Creating your account and setting up your equity structure
+            </Text>
+          </div>
         </div>
       </Stack>
     </div>

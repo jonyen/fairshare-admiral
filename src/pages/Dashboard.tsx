@@ -14,6 +14,7 @@ import {
   Tr,
   Tbody,
   Td,
+  Th,
   Modal,
   useModal,
   ModalContent,
@@ -27,10 +28,12 @@ import {
 import { Grant, Shareholder } from "../types";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import produce from "immer";
+import { AuthContext } from "../App";
 
 export function Dashboard() {
   const { isOpen, onOpen, onClose } = useModal();
   const queryClient = useQueryClient();
+  const { deauthorize } = React.useContext(AuthContext);
   const [newShareholder, setNewShareholder] = React.useState<
     Omit<Shareholder, "id" | "grants">
   >({ name: "", group: "employee" });
@@ -97,13 +100,15 @@ export function Dashboard() {
     if (!shareholder.data || !grant.data) {
       return [];
     }
-    return ["investor", "founder", "employee"].map((group) => ({
-      x: group,
-      y: Object.values(shareholder?.data ?? {})
-        .filter((s) => s.group === group)
-        .flatMap((s) => s.grants)
-        .reduce((acc, grantID) => acc + grant.data[grantID].amount, 0),
-    }));
+    return ["investor", "founder", "employee"]
+      .map((group) => ({
+        x: group,
+        y: Object.values(shareholder?.data ?? {})
+          .filter((s) => s.group === group)
+          .flatMap((s) => s.grants)
+          .reduce((acc, grantID) => acc + grant.data[grantID].amount, 0),
+      }))
+      .filter((entry) => entry.y > 0);
   }
 
   function getInvestorData() {
@@ -127,13 +132,18 @@ export function Dashboard() {
     onClose();
   }
 
+  function handleLogout() {
+    localStorage.removeItem("session");
+    deauthorize();
+  }
+
   return (
-    <Stack>
+    <Stack spacing="8" className="px-4">
       <Stack direction="row" justify="between" alignItems="baseline">
         <Heading size="4xl">
           Fair Share
         </Heading>
-        <Stack direction="row">
+        <Stack direction="row" spacing="2" alignItems="center">
           <Button
             as={Link}
             to="/dashboard/investor"
@@ -148,20 +158,34 @@ export function Dashboard() {
           >
             By Group
           </Button>
+          <Button
+            onClick={handleLogout}
+            variant="outline"
+            size="md"
+            className="ml-4"
+          >
+            Log Out
+          </Button>
         </Stack>
       </Stack>
-      <VictoryPie
-        data={mode === "investor" ? getGroupData() : getInvestorData()}
-      />
-      <Stack divider={<StackDivider />}>
+
+      <div className="flex justify-center">
+        <VictoryPie
+          data={mode === "investor" ? getInvestorData() : getGroupData()}
+          width={400}
+          height={400}
+        />
+      </div>
+
+      <Stack divider={<StackDivider />} spacing="6">
         <Heading>Shareholders</Heading>
         <Table>
           <Thead>
             <Tr>
-              <Td>Name</Td>
-              <Td>Group</Td>
-              <Td>Grants</Td>
-              <Td>Shares</Td>
+              <Th>Name</Th>
+              <Th>Group</Th>
+              <Th>Grants</Th>
+              <Th>Shares</Th>
             </Tr>
           </Thead>
           <Tbody>

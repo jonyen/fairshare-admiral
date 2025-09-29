@@ -12,11 +12,11 @@ import { ShareholderPage } from "./pages/Shareholder";
 export const AuthContext = React.createContext<{
   user: User | undefined;
   authorize: (user: User) => void;
-  deauthroize: () => void;
+  deauthorize: () => void;
 }>({
   user: undefined,
   authorize: () => {},
-  deauthroize: () => {},
+  deauthorize: () => {},
 });
 
 function App() {
@@ -39,7 +39,7 @@ function App() {
       value={{
         user,
         authorize: setUser,
-        deauthroize: () => setUser(undefined),
+        deauthorize: () => setUser(undefined),
       }}
     >
       <Routes>

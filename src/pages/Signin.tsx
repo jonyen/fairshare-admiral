@@ -52,29 +52,30 @@ export function Signin() {
   const isFormValid = email.trim().length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   return (
-    <div>
-      <Stack spacing="8">
-        <div>
-          <div>
-            <img 
-              src={holdDocSvg} 
-              width="60" 
-              height="60" 
-              alt="Hold Document" 
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8">
+        <div className="text-center space-y-4">
+          <div className="flex justify-center">
+            <img
+              src={holdDocSvg}
+              width="80"
+              height="80"
+              alt="Hold Document"
+              className="mx-auto"
             />
           </div>
-          <Heading size="2xl">
+          <Heading size="2xl" className="text-gray-900">
             Welcome Back
           </Heading>
-          <Text>
+          <Text align="center" className="text-gray-600">
             Sign in to your equity management account
           </Text>
         </div>
-        
-        <div>
+
+        <div className="bg-white py-8 px-6 shadow-sm rounded-lg border border-gray-200">
           <Stack as="form" spacing="6" onSubmit={signin}>
             <FormControl isInvalid={!!error}>
-              <FormLabel>
+              <FormLabel className="text-gray-700 font-medium">
                 Email Address
               </FormLabel>
               <Input
@@ -93,39 +94,43 @@ export function Signin() {
                 </FormHelperText>
               )}
             </FormControl>
-            
-            <Button 
-              type="submit" 
+
+            <Button
+              type="submit"
               size="lg"
               disabled={!isFormValid || isLoading}
+              className="w-full"
             >
               {isLoading ? "Signing In..." : "Sign In"}
             </Button>
           </Stack>
-          
-          <div>
-            <Text fontSize="sm">
-              Don't have an account?
-            </Text>
-            <Button 
-              as={Link} 
-              to="/start" 
-              variant="outline" 
-              size="md"
-            >
-              Create Account
-            </Button>
-          </div>
-          
-          <div>
-            <Text fontSize="sm">
-              <Link to="/">
-                ← Back to Home
-              </Link>
-            </Text>
+
+          <div className="mt-6 text-center space-y-4">
+            <div className="space-y-4">
+              <Text fontSize="sm" className="text-gray-600 mb-2">
+                Don't have an account?
+              </Text>
+              <Button
+                as={Link}
+                to="/start"
+                variant="outline"
+                size="md"
+                className="w-full mt-2"
+              >
+                Create Account
+              </Button>
+            </div>
+
+            <div className="pt-4 border-t border-gray-200">
+              <Text fontSize="sm">
+                <Link to="/" className="text-blue-600 hover:text-blue-800 transition-colors">
+                  ← Back to Home
+                </Link>
+              </Text>
+            </div>
           </div>
         </div>
-      </Stack>
+      </div>
     </div>
   );
 }

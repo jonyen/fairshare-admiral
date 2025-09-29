@@ -191,7 +191,7 @@ export function ShareholderPage() {
             <FormControl>
               <Input
                 variant="flushed"
-                placeholder="Name"
+                placeholder="Grant Name"
                 data-testid="grant-name"
                 value={draftGrant.name}
                 onChange={(e) =>

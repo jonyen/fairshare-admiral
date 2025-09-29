@@ -25,21 +25,21 @@ const variantClasses: Record<string, string> = {
   filled: 'border border-transparent'
 };
 
-export const Input: React.FC<InputProps> = ({ 
-  type = 'text', 
-  size = 'md', 
-  isInvalid, 
-  disabled, 
+export const Input: React.FC<InputProps> = ({
+  type = 'text',
+  size = 'md',
+  isInvalid,
+  disabled,
   variant = 'outline',
   className = '',
-  ...props 
+  ...props
 }) => {
-  const baseClasses = "w-full rounded focus:outline-none border";
-  const stateClasses = isInvalid 
-    ? "border-gray-400" 
-    : "border-gray-300";
-  const disabledClasses = disabled ? "cursor-not-allowed opacity-50" : "";
-  
+  const baseClasses = "w-full rounded focus:outline-none transition-colors";
+  const stateClasses = isInvalid
+    ? "border-red-300 focus:border-red-500 focus:ring-1 focus:ring-red-500"
+    : "border-gray-300 focus:border-teal-500 focus:ring-1 focus:ring-teal-500";
+  const disabledClasses = disabled ? "cursor-not-allowed opacity-50 bg-gray-50" : "bg-white";
+
   const classes = [
     baseClasses,
     sizeClasses[size],
@@ -48,7 +48,7 @@ export const Input: React.FC<InputProps> = ({
     disabledClasses,
     className
   ].filter(Boolean).join(' ');
-  
+
   return (
     <input
       type={type}

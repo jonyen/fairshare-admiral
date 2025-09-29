@@ -15,7 +15,16 @@ export const getTestRouter =
       />
     );
 
-export const queryClient = new QueryClient();
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+      cacheTime: 0,
+      staleTime: 0,
+    },
+  },
+});
+
 export function ThemeWrapper({ children }: any) {
   return (
     <QueryClientProvider client={queryClient}>

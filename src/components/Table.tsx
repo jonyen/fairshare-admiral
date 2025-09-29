@@ -6,41 +6,43 @@ interface TableProps {
 }
 
 export const Table: React.FC<TableProps> = ({ children, className = '' }) => (
-  <table className={`min-w-full divide-y divide-gray-200 ${className}`}>
-    {children}
-  </table>
+  <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 rounded-lg">
+    <table className={`min-w-full divide-y divide-gray-200 ${className}`}>
+      {children}
+    </table>
+  </div>
 );
 
 export const Thead: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <thead>{children}</thead>
+  <thead className="bg-gray-50">{children}</thead>
 );
 
 export const Tbody: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <tbody className="divide-y divide-gray-200">{children}</tbody>
+  <tbody className="bg-white divide-y divide-gray-200">{children}</tbody>
 );
 
-export const Tr: React.FC<{ 
-  children: React.ReactNode; 
+export const Tr: React.FC<{
+  children: React.ReactNode;
   className?: string;
 }> = ({ children, className = '' }) => (
-  <tr className={className}>{children}</tr>
+  <tr className={`hover:bg-gray-50 ${className}`}>{children}</tr>
 );
 
-export const Th: React.FC<{ 
-  children?: React.ReactNode; 
+export const Th: React.FC<{
+  children?: React.ReactNode;
   className?: string;
 }> = ({ children, className = '' }) => (
-  <th className={`px-3 py-2 text-left text-xs font-medium uppercase tracking-wider ${className}`}>
+  <th className={`px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ${className}`}>
     {children}
   </th>
 );
 
-export const Td: React.FC<{ 
-  children?: React.ReactNode; 
+export const Td: React.FC<{
+  children?: React.ReactNode;
   className?: string;
   colSpan?: number;
 }> = ({ children, className = '', colSpan }) => (
-  <td className={`px-3 py-2 whitespace-nowrap text-sm ${className}`} colSpan={colSpan}>
+  <td className={`px-6 py-4 whitespace-nowrap text-sm text-gray-900 ${className}`} colSpan={colSpan}>
     {children}
   </td>
 );

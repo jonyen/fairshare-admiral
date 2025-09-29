@@ -36,7 +36,7 @@ export const Modal: React.FC<ModalProps> = ({
     <Dialog.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black/20 z-40" />
-        <Dialog.Content className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border rounded p-4 ${sizeClasses[size]} w-full mx-4 z-50 max-h-[90vh] overflow-y-auto`}>
+        <Dialog.Content className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white border border-gray-200 rounded-lg shadow-xl p-6 ${sizeClasses[size]} w-full mx-4 z-50 max-h-[90vh] overflow-y-auto`}>
           {title && (
             <Dialog.Title className="text-lg font-semibold mb-3">
               {title}
@@ -50,7 +50,7 @@ export const Modal: React.FC<ModalProps> = ({
             <Dialog.Close asChild>
               <button
                 onClick={onClose}
-                className="absolute top-0 right-0 p-1 rounded"
+                className="absolute -top-2 -right-2 p-1 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
                 aria-label="Close modal"
               >
                 <X className="w-4 h-4" />

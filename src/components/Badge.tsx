@@ -12,15 +12,15 @@ const sizeClasses: Record<string, string> = {
   lg: 'px-3 py-1 text-base'
 };
 
-export const Badge: React.FC<BadgeProps> = ({ 
-  children, 
+export const Badge: React.FC<BadgeProps> = ({
+  children,
   size = 'md',
   className = ''
 }) => {
   const sizeClass = sizeClasses[size];
-  
+
   return (
-    <span className={`inline-flex items-center font-semibold rounded border ${sizeClass} ${className}`}>
+    <span className={`inline-flex items-center font-semibold rounded-full border border-teal-200 bg-teal-50 text-teal-700 ${sizeClass} ${className}`}>
       {children}
     </span>
   );

@@ -19,8 +19,8 @@ const maxWidthClasses: Record<string, string> = {
   full: 'max-w-full'
 };
 
-export const Container: React.FC<ContainerProps> = ({ 
-  children, 
+export const Container: React.FC<ContainerProps> = ({
+  children,
   maxW = 'xl',
   paddingTop,
   paddingBottom,
@@ -29,10 +29,17 @@ export const Container: React.FC<ContainerProps> = ({
   className = ''
 }) => {
   const maxWidthClass = maxWidthClasses[maxW];
-  
-  // Remove all padding - candidates need to add it back
+
+  // Build padding classes
+  const paddingClasses = [
+    paddingTop && `pt-${paddingTop}`,
+    paddingBottom && `pb-${paddingBottom}`,
+    paddingX && `px-${paddingX}`,
+    paddingY && `py-${paddingY}`,
+  ].filter(Boolean).join(' ');
+
   return (
-    <div className={`${maxWidthClass} ${className}`}>
+    <div className={`${maxWidthClass} mx-auto ${paddingClasses} ${className}`}>
       {children}
     </div>
   );
