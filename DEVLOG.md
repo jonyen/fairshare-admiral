@@ -4,6 +4,7 @@ Dev setup issues
 Accessibility issues
   - Arrow displayed when showing shareholder name; potential accessibility issue (minor)
   - ARIA labels for images
+  - Color contrast for dashboard pie chart should be more distinct
 
 Bugs & Other Issues
 * Select menu is transparent, makes it hard to see (major) :check:
