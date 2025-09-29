@@ -31,7 +31,7 @@ export function Home() {
             We make understanding equity easy–so everyone is on equal footing
           </Text>
 
-          <Text fontSize="md" className="mb-12 text-gray-700 max-w-2xl mx-auto">
+          <Text fontSize="md" align="center" className="mb-12 text-gray-700 max-w-2xl mx-auto">
             Empower your employees and investors to understand and manage their
             equity all in one place, using the world's <strong className="font-semibold">first</strong> AI
             powered 🤖 equity management platform.
@@ -44,7 +44,7 @@ export function Home() {
                 <span>📊</span>
               </div>
               <Heading size="lg" className="mb-2">Transparent Tracking</Heading>
-              <Text fontSize="sm" className="text-gray-600">Real-time visibility into equity ownership and vesting schedules</Text>
+              <Text fontSize="sm" align="center" className="text-gray-600">Real-time visibility into equity ownership and vesting schedules</Text>
             </div>
 
             <div className="text-center">
@@ -52,7 +52,7 @@ export function Home() {
                 <span>🤖</span>
               </div>
               <Heading size="lg" className="mb-2">AI-Powered Insights</Heading>
-              <Text fontSize="sm" className="text-gray-600">Smart recommendations and automated compliance management</Text>
+              <Text fontSize="sm" align="center" className="text-gray-600">Smart recommendations and automated compliance management</Text>
             </div>
 
             <div className="text-center">
@@ -60,7 +60,7 @@ export function Home() {
                 <span>🔒</span>
               </div>
               <Heading size="lg" className="mb-2">Secure & Compliant</Heading>
-              <Text fontSize="sm" className="text-gray-600">Enterprise-grade security with regulatory compliance built-in</Text>
+              <Text fontSize="sm" align="center" className="text-gray-600">Enterprise-grade security with regulatory compliance built-in</Text>
             </div>
           </div>
         </div>
@@ -87,7 +87,7 @@ export function Home() {
 
           {/* Social proof */}
           <div className="text-center">
-            <Text fontSize="sm" className="text-gray-500 mb-4">
+            <Text fontSize="sm" className="text-gray-500 mb-4" align="center">
               Trusted by leading companies
             </Text>
             <div className="flex justify-center space-x-6">
