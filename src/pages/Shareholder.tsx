@@ -29,7 +29,13 @@ import produce from "immer";
 export function ShareholderPage() {
   const queryClient = useQueryClient();
   const { isOpen, onOpen, onClose } = useModal();
+  const {
+    isOpen: isEditOpen,
+    onOpen: onEditOpen,
+    onClose: onEditClose
+  } = useModal();
   const { shareholderID = ''} = useParams();
+  const [editingGrant, setEditingGrant] = React.useState<Grant | null>(null);
   const grantQuery = useQuery<{ [dataID: number]: Grant }>("grants", () =>
     fetch("/grants").then((e) => e.json())
   );
@@ -80,11 +86,74 @@ export function ShareholderPage() {
       },
     }
   );
+
+  const editGrantMutation = useMutation<Grant, unknown, Grant>(
+    (grant) =>
+      fetch(`/grant/${grant.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(grant),
+      }).then((res) => res.json()),
+    {
+      onSuccess: (data) => {
+        queryClient.setQueryData<{ [id: number]: Grant } | undefined>(
+          "grants",
+          (g) => {
+            if (g) {
+              return produce(g, (draft) => {
+                draft[data.id] = data;
+              });
+            }
+          }
+        );
+      },
+    }
+  );
+
+  function handleEditGrant(grant: Grant) {
+    setEditingGrant(grant);
+    setDraftGrant({
+      name: grant.name,
+      amount: grant.amount,
+      issued: grant.issued,
+      type: grant.type,
+    });
+    onEditOpen();
+  }
+
   async function submitGrant(e: React.FormEvent) {
     e.preventDefault();
+
+    // Validate required fields
+    if (!draftGrant.name.trim() || draftGrant.amount <= 0 || !draftGrant.issued) {
+      return;
+    }
+
     try {
       await grantMutation.mutateAsync(draftGrant);
       onClose();
+      setDraftGrant({ name: "", amount: 0, issued: "", type: "common" });
+    } catch (e) {
+      console.warn(e);
+    }
+  }
+
+  async function submitEditGrant(e: React.FormEvent) {
+    e.preventDefault();
+
+    // Validate required fields
+    if (!draftGrant.name.trim() || draftGrant.amount <= 0 || !draftGrant.issued || !editingGrant) {
+      return;
+    }
+
+    try {
+      const updatedGrant = {
+        ...editingGrant,
+        ...draftGrant,
+      };
+      await editGrantMutation.mutateAsync(updatedGrant);
+      onEditClose();
+      setEditingGrant(null);
       setDraftGrant({ name: "", amount: 0, issued: "", type: "common" });
     } catch (e) {
       console.warn(e);
@@ -163,20 +232,29 @@ export function ShareholderPage() {
             <Td>Date</Td>
             <Td>Amount</Td>
             <Td>Class</Td>
-            <Td></Td>
+            <Td>Actions</Td>
           </Tr>
         </Thead>
         <Tbody>
           {shareholderQuery.data[parseInt(shareholderID, 10)].grants.map(
             (grantID) => {
-              const { name, issued, amount, type } = grantQuery.data[grantID];
+              const grant = grantQuery.data[grantID];
+              const { name, issued, amount, type } = grant;
               return (
                 <Tr key={grantID}>
                   <Td>{name}</Td>
                   <Td>{new Date(issued).toLocaleDateString()}</Td>
                   <Td>{amount}</Td>
                   <Td>{type}</Td>
-                  <Td></Td>
+                  <Td>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => handleEditGrant(grant)}
+                    >
+                      Edit
+                    </Button>
+                  </Td>
                 </Tr>
               );
             }
@@ -233,7 +311,12 @@ export function ShareholderPage() {
                 }
               />
             </FormControl>
-            <Button type="submit">Save</Button>
+            <Button
+              type="submit"
+              disabled={!draftGrant.name.trim() || draftGrant.amount <= 0 || !draftGrant.issued}
+            >
+              Save
+            </Button>
           </Stack>
         </ModalContent>
       </Modal>

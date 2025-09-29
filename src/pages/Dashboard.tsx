@@ -1,5 +1,5 @@
 import React from "react";
-import { VictoryPie } from "victory";
+import { VictoryPie, VictoryTooltip } from "victory";
 import { Link, useParams } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import {
@@ -182,6 +182,8 @@ export function Dashboard() {
           data={mode === "investor" ? getInvestorData() : getGroupData()}
           width={400}
           height={400}
+          innerRadius={100}
+          labelComponent={<VictoryTooltip />}
         />
       </div>
 

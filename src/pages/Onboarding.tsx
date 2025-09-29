@@ -400,8 +400,8 @@ export function ShareholderGrantsStep() {
   const nextShareholderId = shareholderIds[currentIndex + 1];
 
   const nextLink = nextShareholderId !== undefined
-    ? `/start/grants/${nextShareholderId}`
-    : `/start/done`;
+    ? `/grants/${nextShareholderId}`
+    : `/done`;
 
   function handleNext() {
     navigate(nextLink);
