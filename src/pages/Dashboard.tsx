@@ -66,13 +66,27 @@ export function Dashboard() {
     }
   );
 
-  // TODO: using this dictionary thing a lot... hmmm
+  // Fetch raw data as dictionaries (normalized from API)
   const grant = useQuery<{ [dataID: number]: Grant }, string>("grants", () =>
     fetch("/grants").then((e) => e.json())
   );
   const shareholder = useQuery<{ [dataID: number]: Shareholder }>(
     "shareholders",
     () => fetch("/shareholders").then((e) => e.json())
+  );
+
+  // Create derived data structures for easier consumption
+  const grants = React.useMemo(() => grant.data || {}, [grant.data]);
+  const shareholders = React.useMemo(() => Object.values(shareholder.data || {}), [shareholder.data]);
+
+  // Enhanced shareholders with computed grant totals
+  const shareholdersWithTotals = React.useMemo(() =>
+    shareholders.map(s => ({
+      ...s,
+      totalShares: s.grants.reduce((acc, grantID) => acc + (grants[grantID]?.amount || 0), 0),
+      grantDetails: s.grants.map(grantID => grants[grantID]).filter(Boolean)
+    })),
+    [shareholders, grants]
   );
 
   if (grant.status === "error") {
@@ -95,36 +109,30 @@ export function Dashboard() {
     );
   }
 
-  // TODO: why are these inline?
-  function getGroupData() {
-    if (!shareholder.data || !grant.data) {
-      return [];
-    }
+  // Chart data functions using cleaner data structures
+  const getGroupData = () => {
+    if (shareholdersWithTotals.length === 0) return [];
+
     return ["investor", "founder", "employee"]
       .map((group) => ({
         x: group,
-        y: Object.values(shareholder?.data ?? {})
+        y: shareholdersWithTotals
           .filter((s) => s.group === group)
-          .flatMap((s) => s.grants)
-          .reduce((acc, grantID) => acc + grant.data[grantID].amount, 0),
+          .reduce((acc, s) => acc + s.totalShares, 0),
       }))
       .filter((entry) => entry.y > 0);
-  }
+  };
 
-  function getInvestorData() {
-    if (!shareholder.data || !grant.data) {
-      return [];
-    }
-    return Object.values(shareholder.data)
+  const getInvestorData = () => {
+    if (shareholdersWithTotals.length === 0) return [];
+
+    return shareholdersWithTotals
       .map((s) => ({
         x: s.name,
-        y: s.grants.reduce(
-          (acc, grantID) => acc + grant.data[grantID].amount,
-          0
-        ),
+        y: s.totalShares,
       }))
       .filter((e) => e.y > 0);
-  }
+  };
 
   async function submitNewShareholder(e: React.FormEvent) {
     e.preventDefault();
@@ -189,7 +197,7 @@ export function Dashboard() {
             </Tr>
           </Thead>
           <Tbody>
-            {Object.values(shareholder.data).map((s) => (
+            {shareholdersWithTotals.map((s) => (
               <Tr key={s.id}>
                 <Td>
                   <Link to={`/shareholder/${s.id}`}>
@@ -204,10 +212,7 @@ export function Dashboard() {
                   {s.grants.length}
                 </Td>
                 <Td data-testid={`shareholder-${s.name}-shares`}>
-                  {s.grants.reduce(
-                    (acc, grantID) => acc + grant.data[grantID].amount,
-                    0
-                  )}
+                  {s.totalShares.toLocaleString()}
                 </Td>
               </Tr>
             ))}

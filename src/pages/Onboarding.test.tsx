@@ -132,7 +132,7 @@ describe("Onboarding", () => {
     });
     await userEvent.click(newShareholderNameField);
     await userEvent.paste("Anne");
-    await userEvent.selectOptions(groupPicker, "founder");
+    await userEvent.selectOptions(groupPicker, "Founder");
     await userEvent.click(createButton);
 
     await waitForElementToBeRemoved(newShareholderNameField)
@@ -207,6 +207,7 @@ describe("Onboarding", () => {
     const saveButton = screen.getByRole("button", { name: /Save/ });
     await userEvent.click(saveButton);
 
+    screen.debug()
     expect(screen.getByText("2020 Incentive")).toBeInTheDocument();
 
     let nextButton = screen.getByRole("link", { name: /Next/ });

@@ -398,10 +398,14 @@ export function ShareholderGrantsStep() {
   const shareholderIds = Object.keys(shareholders).map(id => parseInt(id, 10)).sort((a, b) => a - b);
   const currentIndex = shareholderIds.indexOf(shareholder.id);
   const nextShareholderId = shareholderIds[currentIndex + 1];
-  
+
   const nextLink = nextShareholderId !== undefined
-    ? `../../grants/${nextShareholderId}`
-    : `../done`;
+    ? `/start/grants/${nextShareholderId}`
+    : `/start/done`;
+
+  function handleNext() {
+    navigate(nextLink);
+  }
 
   function submitGrant(e: React.FormEvent) {
     e.preventDefault();
@@ -574,8 +578,7 @@ export function ShareholderGrantsStep() {
               Add Grant
             </Button>
             <Button
-              as={Link}
-              to={nextLink}
+              onClick={handleNext}
               size="lg"
               className="flex-1"
             >
