@@ -1,7 +1,7 @@
 import React from "react";
 import { VictoryPie, VictoryTooltip } from "victory";
 import { Link, useParams } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronUp, ChevronDown } from "lucide-react";
 import {
   Text,
   Heading,
@@ -30,6 +30,9 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import produce from "immer";
 import { AuthContext } from "../App";
 
+type SortField = 'name' | 'group' | 'grants' | 'shares';
+type SortDirection = 'asc' | 'desc';
+
 export function Dashboard() {
   const { isOpen, onOpen, onClose } = useModal();
   const queryClient = useQueryClient();
@@ -38,6 +41,8 @@ export function Dashboard() {
     Omit<Shareholder, "id" | "grants">
   >({ name: "", group: "employee" });
   const { mode } = useParams();
+  const [sortField, setSortField] = React.useState<SortField>('name');
+  const [sortDirection, setSortDirection] = React.useState<SortDirection>('asc');
 
   const shareholderMutation = useMutation<
     Shareholder,
@@ -80,14 +85,70 @@ export function Dashboard() {
   const shareholders = React.useMemo(() => Object.values(shareholder.data || {}), [shareholder.data]);
 
   // Enhanced shareholders with computed grant totals
-  const shareholdersWithTotals = React.useMemo(() =>
-    shareholders.map(s => ({
+  const shareholdersWithTotals = React.useMemo(() => {
+    const enhanced = shareholders.map(s => ({
       ...s,
       totalShares: s.grants.reduce((acc, grantID) => acc + (grants[grantID]?.amount || 0), 0),
       grantDetails: s.grants.map(grantID => grants[grantID]).filter(Boolean)
-    })),
-    [shareholders, grants]
-  );
+    }));
+
+    // Sort the shareholders
+    const sorted = enhanced.sort((a, b) => {
+      let aValue: string | number;
+      let bValue: string | number;
+
+      switch (sortField) {
+        case 'name':
+          aValue = a.name.toLowerCase();
+          bValue = b.name.toLowerCase();
+          break;
+        case 'group':
+          aValue = a.group.toLowerCase();
+          bValue = b.group.toLowerCase();
+          break;
+        case 'grants':
+          aValue = a.grants.length;
+          bValue = b.grants.length;
+          break;
+        case 'shares':
+          aValue = a.totalShares;
+          bValue = b.totalShares;
+          break;
+        default:
+          aValue = a.name.toLowerCase();
+          bValue = b.name.toLowerCase();
+      }
+
+      if (typeof aValue === 'string' && typeof bValue === 'string') {
+        const comparison = aValue.localeCompare(bValue);
+        return sortDirection === 'asc' ? comparison : -comparison;
+      } else {
+        const comparison = (aValue as number) - (bValue as number);
+        return sortDirection === 'asc' ? comparison : -comparison;
+      }
+    });
+
+    console.log('Sorted shareholders:', sorted.map(s => ({ name: s.name, [sortField]: sortField === 'shares' ? s.totalShares : sortField === 'grants' ? s.grants.length : s[sortField] })));
+    return sorted;
+  }, [shareholders, grants, sortField, sortDirection]);
+
+  const handleSort = (field: SortField) => {
+    console.log('Sorting by:', field, 'Current field:', sortField, 'Current direction:', sortDirection);
+    if (sortField === field) {
+      const newDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+      console.log('Same field, changing direction to:', newDirection);
+      setSortDirection(newDirection);
+    } else {
+      console.log('New field, setting to asc');
+      setSortField(field);
+      setSortDirection('asc');
+    }
+  };
+
+  const getSortIcon = (field: SortField) => {
+    if (sortField !== field) return null;
+    return sortDirection === 'asc' ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />;
+  };
 
   if (grant.status === "error") {
     return (
@@ -192,10 +253,42 @@ export function Dashboard() {
         <Table>
           <Thead>
             <Tr>
-              <Th>Name</Th>
-              <Th>Group</Th>
-              <Th>Grants</Th>
-              <Th>Shares</Th>
+              <Th
+                className="cursor-pointer hover:bg-gray-100 transition-colors"
+                onClick={() => handleSort('name')}
+              >
+                <div className="flex items-center justify-between">
+                  <span>Name</span>
+                  {getSortIcon('name')}
+                </div>
+              </Th>
+              <Th
+                className="cursor-pointer hover:bg-gray-100 transition-colors"
+                onClick={() => handleSort('group')}
+              >
+                <div className="flex items-center justify-between">
+                  <span>Group</span>
+                  {getSortIcon('group')}
+                </div>
+              </Th>
+              <Th
+                className="cursor-pointer hover:bg-gray-100 transition-colors"
+                onClick={() => handleSort('grants')}
+              >
+                <div className="flex items-center justify-between">
+                  <span>Grants</span>
+                  {getSortIcon('grants')}
+                </div>
+              </Th>
+              <Th
+                className="cursor-pointer hover:bg-gray-100 transition-colors"
+                onClick={() => handleSort('shares')}
+              >
+                <div className="flex items-center justify-between">
+                  <span>Shares</span>
+                  {getSortIcon('shares')}
+                </div>
+              </Th>
             </Tr>
           </Thead>
           <Tbody>

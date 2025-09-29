@@ -31,8 +31,12 @@ export const Tr: React.FC<{
 export const Th: React.FC<{
   children?: React.ReactNode;
   className?: string;
-}> = ({ children, className = '' }) => (
-  <th className={`px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ${className}`}>
+  onClick?: () => void;
+}> = ({ children, className = '', onClick }) => (
+  <th
+    className={`px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ${className}`}
+    onClick={onClick}
+  >
     {children}
   </th>
 );
